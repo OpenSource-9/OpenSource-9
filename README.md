@@ -22,19 +22,19 @@ My Running Game 프로젝트는 Three.js,React Three Fiber 를 사용하여 3D �
 이 프로젝트는 다음과 같이 구성되어 있습니다:
 
 /<br/>
-├── components/<br/>
+|── components/<br/>
 │   ├── Game.jsx<br/>
 │   ├── Header.jsx<br/>
 │   └── Score.jsx<br/>
-├── pages/<br/>
+|── pages/<br/>
 │   └── index.js<br/>
-├── public/<br/>
+|── public/<br/>
 │   └── assets/<br/>
-├── styles/<br/>
+|── styles/<br/>
 │   └── globals.css<br/>
-├── .gitignore<br/>
-├── package.json<br/>
-└── README.md<br/>
+|── .gitignore<br/>
+|── package.json<br/>
+|── README.md<br/>
 
 
 
