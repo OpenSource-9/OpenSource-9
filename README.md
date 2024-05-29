@@ -37,6 +37,7 @@ My Running Game 프로젝트는 Three.js,React Three Fiber 를 사용하여 3D �
 └── README.md<br/>
 
 
+
 ### 컴포넌트
 
 - **Game.jsx**: Three.js로 개발된, 달리기 게임의 핵심이 되는 컴포넌트입니다.
