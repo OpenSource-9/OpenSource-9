@@ -21,20 +21,20 @@ My Running Game 프로젝트는 Three.js,React Three Fiber 를 사용하여 3D �
 
 이 프로젝트는 다음과 같이 구성되어 있습니다:
 
-/
-├── components/
-│   ├── Game.jsx
-│   ├── Header.jsx
-│   └── Score.jsx
-├── pages/
-│   └── index.js
-├── public/
-│   └── assets/
-├── styles/
-│   └── globals.css
-├── .gitignore
-├── package.json
-└── README.md
+/\n
+├── components/\n
+│   ├── Game.jsx\n
+│   ├── Header.jsx\n
+│   └── Score.jsx\n
+├── pages/\n
+│   └── index.js\n
+├── public/\n
+│   └── assets/\n
+├── styles/\n
+│   └── globals.css\n
+├── .gitignore\n
+├── package.json\n
+└── README.md\n
 
 
 ### 컴포넌트
@@ -67,8 +67,8 @@ My Running Game 프로젝트는 Three.js,React Three Fiber 를 사용하여 3D �
 
 1. **저장소 클론**:
     ```bash
-    git clone https://github.com/your-username/my-running-game.git -수정 필요
-    cd my-running-game - 수정필요
+    git clone https://github.com/fghy788/OpenSource-9.git
+    cd OpenSource-9
     ```
 
 2. **의존성 설치**:
