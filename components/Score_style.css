@@ -1,0 +1,37 @@
+h1{
+    font-family: 'PixelBold', sans-serif;
+    font-size: 100px;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: black; 
+}
+table {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    background-color: black;
+}
+thead{
+    background-color: #4f4f4f;
+    color: #ffffff;
+}
+th{
+    font-family: "PixelSemiBold";
+    padding: 10px;
+    text-align: center;
+    font-size: 30px;
+    color: #ffffff;
+}
+td{
+    font-family: "PixelRegular";
+    padding: 10px;
+    text-align: center;
+    font-size: 25px;
+    color: #ffffff;
+}
+ 
+tbody tr:hover {
+    background-color: grey;
+}
