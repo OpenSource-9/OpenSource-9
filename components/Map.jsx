@@ -1,15 +1,23 @@
 import { Physics, useBox, usePlane, useSphere } from "@react-three/cannon";
-import { Box, CameraControls, OrbitControls, Sphere, Text, Text3D } from "@react-three/drei";
-import { useFrame, useThree } from "@react-three/fiber";
+import { Box, CameraControls, MeshWobbleMaterial, OrbitControls, Plane, Sphere, Text, Text3D, useAnimations, useFBX, useGLTF } from "@react-three/drei";
+import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
+import { AnimationMixer, TextureLoader } from "three";
 
 export const MyMap =({setGameOver,setUserScore})=>{
-
   const [BoxArr,setBoxArr]=useState([]);
-  const  [Speed,setSpeed] = useState(0.08);
+  const [Speed,setSpeed] = useState(0.08);
   const CameraRef=useRef();
   const BoxPositionRef = useRef();
-  const BoxArgs=[1,1,1.4]
+  const BoxArgs=[1,1,1.4];
+
+  const TextureNormal = useLoader(TextureLoader, "/texture/lichen_rock_nor_gl_1k.jpg");
+  const TextureDiff = useLoader(TextureLoader, "/texture/lichen_rock_diff_1k.jpg");
+  const WaterNormal =useLoader(TextureLoader, "/texture/waternormals.jpeg");
+
+const MyCharacter  = useGLTF("/texture/run.gltf");
+const { actions, mixer } = useAnimations(MyCharacter.animations, MyCharacter.scene);
+const CharacterRef  = useRef();
 
   const [keys, setKeys] = useState({
     KeyA: false,
@@ -101,18 +109,11 @@ export const MyMap =({setGameOver,setUserScore})=>{
     }
 
     if(prevArr[0]===1 && prevArr[1]===1 && prevArr[2]===0){
-      if(RandomArr[0]===0 && RandomArr[1]===1 && RandomArr[2]===1){
-        RandomArr=[1,0,1];
-      }
+        RandomArr[1]=0;
     }
     if(prevArr[0]===0 && prevArr[1]===1 && prevArr[2]===1) {
-      if(RandomArr[0]===1 && RandomArr[1]===1 && RandomArr[2]===0){
-        RandomArr=[1,0,1];
-      }
+      RandomArr[1]=0;
     }
-    console.log(prevArr);
-    console.log(RandomArr);
-    console.log("-------------")
 
   }
   
@@ -120,6 +121,9 @@ export const MyMap =({setGameOver,setUserScore})=>{
   
     return RandomArr;
   }
+
+
+
   const CreateMap=(CurX)=>{
     if (CurX < BoxArr[0].position[0]) {
       const PickedArr = ReturnRandom();
@@ -155,20 +159,25 @@ export const MyMap =({setGameOver,setUserScore})=>{
   const MoveBox=()=>{
     if(BoxPositionRef.current===undefined)return;
     if(keys.KeyA){
+      CharacterRef.current.rotation.set(0,-60*Math.PI/180,0);
       MyPhysicsBox[1].position.set(BoxPositionRef.current[0]-Speed,BoxPositionRef.current[1],BoxPositionRef.current[2]+0.07);
     }else if(keys.KeyD){
+      CharacterRef.current.rotation.set(0,-120*Math.PI/180,0);
       MyPhysicsBox[1].position.set(BoxPositionRef.current[0]-Speed,BoxPositionRef.current[1],BoxPositionRef.current[2]-0.07);
     }
     else {
+      CharacterRef.current.rotation.set(0,-90*Math.PI/180,0);
     MyPhysicsBox[1].position.set(BoxPositionRef.current[0]-Speed,BoxPositionRef.current[1],BoxPositionRef.current[2]);
     }
+    console.log(CharacterRef.current);
+    CharacterRef.current.position.set(BoxPositionRef.current[0],BoxPositionRef.current[1]+0.15,BoxPositionRef.current[2]);
   }
 
 //Frame
   useFrame(()=>{
     if(BoxArr.length===0)return;
     if(BoxPositionRef.current===undefined)return;
-    if(BoxPositionRef.current[1]<0.2){
+    if(BoxPositionRef.current[1]<0.1){
       setGameOver(true);
       return;
     }
@@ -216,21 +225,30 @@ export const MyMap =({setGameOver,setUserScore})=>{
   }, [MyPhysicsBox[1].position, BoxPositionRef]);
 
   useEffect(()=>{
-    if(BoxArr.length===0)return;
-    ManagePhysicsBox();
-  },[BoxArr])
+    if(MyCharacter===undefined)return;
+    actions["Running0"].play();
+  },[MyCharacter])
+  
   return  <>
         <CameraControls dollySpeed={0} truckSpeed={0} azimuthRotateSpeed={0} polarRotateSpeed={0} ref={CameraRef}/>
         <>
       {BoxArr.map((box, index) => (
-        <Box key={index} args={BoxArgs} position={box.position} >
-          <meshStandardMaterial color="#D96CAD" opacity={1} transparent />
-        </Box>
+        <>
+         <Box key={index} args={BoxArgs} position={box.position} >
+          <meshStandardMaterial map={TextureDiff} TextureNormal={TextureNormal} TextureDiff={TextureDiff} tr />
+      </Box>
+</>
       ))}
       </>
+      <Plane args={[10000,10000]} position={[0,0.4,0]} rotation={[-Math.PI/2, 0, 0]} >
+      <meshStandardMaterial map={WaterNormal} TextureNormal={WaterNormal}  color={"red"} />
+      </Plane>
+
+      <primitive object={MyCharacter.scene} position={[10, 2, 0]} scale={0.002} rotation={[0,-Math.PI/2,0]} ref={CharacterRef}/>
+
 
       <Box args={[0.1,0.1,0.1]} position={[10, 2, 0]} ref={MyPhysicsBox[0]}>
-      <meshStandardMaterial color="blue" />
+      <meshStandardMaterial transparent opacity={0} />
       </Box>
     </>
 }

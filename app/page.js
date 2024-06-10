@@ -21,6 +21,14 @@ export default function Home() {
             className={`fixed m-auto top-0 bottom-0 left-0 right-0 w-1/2 h-1/2 bg-white`}
           >
             <span>GAMEOVER</span>
+            <button
+              className={`w-[3rem] h-[2rem] bg-black text-white rounded-md`}
+              onClick={() => {
+                window.location.reload();
+              }}
+            >
+              RETRY
+            </button>
           </div>
         </>
       )}
