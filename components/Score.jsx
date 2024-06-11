@@ -18,9 +18,12 @@ export const ScoreBoard=()=>{
     }
     setPlayer(TempArr);
     }
+    //랭킹 정보를 가져오는 api 호출함수
+
     useEffect(()=>{
         GetData();
     },[]);
+    //랭킹 정보를 가져오는 api 호출함수 실행
 
 return <>
     <div className="leaderBoard">

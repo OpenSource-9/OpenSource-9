@@ -8,11 +8,11 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-   const [Menu, setMenu] = useState(0);
-   const [GameOver, setGameOver] = useState(false);
-   const [GameManual, setGameManual] = useState(true);
-   const [UserScore, setUserScore] = useState(0);
-   const [UserName, setUserName] = useState("");
+   const [Menu, setMenu] = useState(0); // 0: Game, 1: ScoreBoard 메뉴를 나타내는 변수
+   const [GameOver, setGameOver] = useState(false); // 게임이 끝났는지 나타내는 변수
+   const [GameManual, setGameManual] = useState(true); // 게임 설명을 나타내는 변수
+   const [UserScore, setUserScore] = useState(0); // 유저의 점수를 나타내는 변수
+   const [UserName, setUserName] = useState(""); // 유저의 이름을 나타내는 변수
 
    const SaveData = async () => {
       console.log(UserName);
@@ -28,6 +28,7 @@ export default function Home() {
       if (Success) setMenu(1);
       else alert("SAVE FAILED");
    };
+   //유저 정보 저장하는 api를 호출
 
    useEffect(() => {
       if (Menu === 1) {
@@ -35,12 +36,14 @@ export default function Home() {
          setUserScore(0);
       }
    }, [Menu]);
+   //메뉴가 1로 바뀔시 스코어 초기화 및 게임오버 초기화
 
    useEffect(() => {
       setTimeout(() => {
          setGameManual(false);
       }, 3000);
    }, []);
+   //게임 설명을 시작 3초 뒤에 없애기
 
    return (
       <main className={`w-screen h-screen grid grid-rows-[5rem_auto]`}>
@@ -69,6 +72,7 @@ export default function Home() {
                </div>
             </>
          )}
+         {/* 게임오버시 유저 이름을 입력받고 저장하는 버튼과 재시작 버튼을 띄움 */}
          {GameManual && (
             <>
                <div className={`fixed m-auto top-0 bottom-0 left-0 right-0 w-1/2 h-1/2 grid grid-rows-[5rem_7fr] bg-red-700 p-2 opacity-70 rounded-md`}>
@@ -92,6 +96,7 @@ export default function Home() {
                </div>
             </>
          )}
+         {/* 게임 설명 */}
       </main>
    );
 }

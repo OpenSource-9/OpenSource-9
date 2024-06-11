@@ -5,58 +5,59 @@ import { useEffect, useRef, useState } from "react";
 import { AnimationMixer, TextureLoader } from "three";
 
 export const MyMap =({setGameOver,setUserScore})=>{
-  const [BoxArr,setBoxArr]=useState([]);
-  const [Speed,setSpeed] = useState(0.08);
-  const CameraRef=useRef();
-  const BoxPositionRef = useRef();
-  const BoxArgs=[1,1,1.4];
+  const [BoxArr,setBoxArr]=useState([]); //맵에 있는 박스들의 배열
+  const [Speed,setSpeed] = useState(0.08); //게임 속도
+  const CameraRef=useRef();//카메라
+  const BoxPositionRef = useRef();//물리 박스 조작 레퍼런스
+  const BoxArgs=[1,1,1.4];//박스 크기
 
-  const TextureNormal = useLoader(TextureLoader, "/texture/lichen_rock_nor_gl_1k.jpg");
-  const TextureDiff = useLoader(TextureLoader, "/texture/lichen_rock_diff_1k.jpg");
-  const WaterNormal =useLoader(TextureLoader, "/texture/waternormals.jpeg");
+  const TextureNormal = useLoader(TextureLoader, "/texture/lichen_rock_nor_gl_1k.jpg"); //박스 텍스쳐
+  const TextureDiff = useLoader(TextureLoader, "/texture/lichen_rock_diff_1k.jpg");//박스 텍스쳐
+  const WaterNormal =useLoader(TextureLoader, "/texture/waternormals.jpeg"); //물 텍스쳐
 
-const MyCharacter  = useGLTF("/texture/run.gltf");
-const { actions, mixer } = useAnimations(MyCharacter.animations, MyCharacter.scene);
-const CharacterRef  = useRef();
+const MyCharacter  = useGLTF("/texture/run.gltf"); //캐릭터호출
+const { actions, mixer } = useAnimations(MyCharacter.animations, MyCharacter.scene);//캐릭터 애니메이션
+const CharacterRef  = useRef(); //캐릭터 조작 레퍼런스
 
   const [keys, setKeys] = useState({
     KeyA: false,
     KeyD: false,
   });
+  //키 입력 체크
 
-  const MyPhysicsBox = useBox(() => ({ args: [0.1, 0.1, 0.1], position: [8, 1, 0], mass:100}));
-  const PhysicsBox1 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox2 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox3 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox4 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox5 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox6 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox7 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox8 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox9 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox10 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox11 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox12 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox13 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox14 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox15 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox16 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox17 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox18 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox19 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox20 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox21 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox22 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox23 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox24 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox25 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox26 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox27 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox28 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox29 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
-  const PhysicsBox30 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 }));
+  const MyPhysicsBox = useBox(() => ({ args: [0.1, 0.1, 0.1], position: [8, 1, 0], mass:100})); //캐릭터 물리박스
+  const PhysicsBox1 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox2 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox3 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox4 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox5 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox6 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox7 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox8 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox9 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox10 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox11 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox12 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox13 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox14 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox15 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox16 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox17 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox18 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox19 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox20 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox21 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox22 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox23 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox24 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox25 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox26 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox27 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox28 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox29 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
+  const PhysicsBox30 = useBox(() => ({ args: BoxArgs, position: [0, 0, 0], mass:0 })); //맵 물리박스
 
-  
+
   const ManagePhysicsBox=()=>{
     PhysicsBox1[1].position.set(BoxArr[6].position[0],BoxArr[6].position[1],BoxArr[6].position[2]);
     PhysicsBox2[1].position.set(BoxArr[7].position[0],BoxArr[7].position[1],BoxArr[7].position[2]);
@@ -89,7 +90,7 @@ const CharacterRef  = useRef();
     PhysicsBox29[1].position.set(BoxArr[34].position[0],BoxArr[34].position[1],BoxArr[34].position[2]);
     PhysicsBox30[1].position.set(BoxArr[35].position[0],BoxArr[35].position[1],BoxArr[35].position[2]);
   }
-//Physics
+  //맵물리 박스 위치를 맵에 있는 박스들의 위치로 설정 
 
   const ReturnRandom= ()=>{
     let prevArr = [];
@@ -114,13 +115,11 @@ const CharacterRef  = useRef();
     if(prevArr[0]===0 && prevArr[1]===1 && prevArr[2]===1) {
       RandomArr[1]=0;
     }
-
   }
-  
-  
-  
+
     return RandomArr;
   }
+  //랜덤으로 박스 배열 생성
 
 
 
@@ -146,7 +145,7 @@ const CharacterRef  = useRef();
       }
     }
   }  
-//Camera
+  //맵 생성
   const MoveCamera=(CurX)=>{
     CameraRef.current.setPosition(CurX-Speed,1,0);
     CameraRef.current.setTarget(CurX-Speed-15,3,0);
@@ -154,7 +153,7 @@ const CharacterRef  = useRef();
       setBoxArr((prev)=>prev.slice(1));
     }
   }
-//Box
+//카메라 이동
 
   const MoveBox=()=>{
     if(BoxPositionRef.current===undefined)return;
@@ -172,8 +171,8 @@ const CharacterRef  = useRef();
     console.log(CharacterRef.current);
     CharacterRef.current.position.set(BoxPositionRef.current[0],BoxPositionRef.current[1]+0.15,BoxPositionRef.current[2]);
   }
+  //캐릭터 이동 및 물리박스 이동
 
-//Frame
   useFrame(()=>{
     if(BoxArr.length===0)return;
     if(BoxPositionRef.current===undefined)return;
@@ -194,6 +193,7 @@ const CharacterRef  = useRef();
     
     setSpeed((prev)=>prev+0.0001);
   })
+  //맵 생성, 카메라 이동, 물리박스 이동, 캐릭터 이동, 게임오버 체크
   
   useEffect(()=>{
     for(let i=10;i>-30;i--){
@@ -215,6 +215,7 @@ const CharacterRef  = useRef();
         setKeys((prev) => ({ ...prev, [e.code]: false }));
     });
   },[])
+  //게임 시작시 맵 생성 및  키입력 및 제거 이벤트 리스터 추가 
 
   useEffect(() => {
     if(MyPhysicsBox[1].position===undefined)return;
@@ -223,14 +224,17 @@ const CharacterRef  = useRef();
     });
     return () => unsubscribe();
   }, [MyPhysicsBox[1].position, BoxPositionRef]);
+  //물리박스 위치를 BoxPositionRef에 저장
 
   useEffect(()=>{
     if(MyCharacter===undefined)return;
     actions["Running0"].play();
   },[MyCharacter])
+  //캐릭터 애니메이션 실행
   
   return  <>
         <CameraControls dollySpeed={0} truckSpeed={0} azimuthRotateSpeed={0} polarRotateSpeed={0} ref={CameraRef}/>
+        {/* 카메라 */}
         <>
       {BoxArr.map((box, index) => (
         <>
@@ -240,15 +244,17 @@ const CharacterRef  = useRef();
 </>
       ))}
       </>
+      {/* 맵 생성 */}
       <Plane args={[10000,10000]} position={[0,0.4,0]} rotation={[-Math.PI/2, 0, 0]} >
       <meshStandardMaterial map={WaterNormal} TextureNormal={WaterNormal}  color={"red"} />
       </Plane>
-
+      {/* 용암 */}
       <primitive object={MyCharacter.scene} position={[10, 2, 0]} scale={0.002} rotation={[0,-Math.PI/2,0]} ref={CharacterRef}/>
-
+      {/* 캐릭터 호출 */}
 
       <Box args={[0.1,0.1,0.1]} position={[10, 2, 0]} ref={MyPhysicsBox[0]}>
       <meshStandardMaterial transparent opacity={0} />
       </Box>
+     {/* 투명 물리 박스 호출 */}
     </>
 }
