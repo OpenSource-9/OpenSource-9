@@ -16,13 +16,15 @@ export async function POST(req) {
          headers: {
             "Content-Type": "application/json",
          },
-         body: JSON.stringify({ user_name: UserName, score: UserScore }),
+         body: JSON.stringify({ name: UserName, score: UserScore }),
       });
+
       const Data = await Ref.json();
       if (Data.statusCode === 500) throw new Error("Failed to save data");
       return NextResponse.json({ Success: true });
    } catch (e) {
-      console.log(e);
+      console.log(e.toString());
+      if (e.toString() === "SyntaxError: Unexpected end of JSON input") return NextResponse.json({ Success: true });
       return NextResponse.json({ Success: false });
    }
 }
