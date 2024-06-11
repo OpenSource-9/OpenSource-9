@@ -36,15 +36,15 @@ export default function Home() {
    }, [Menu]);
 
    useEffect(() => {
-      // setTimeout(() => {
-      //    setGameManual(false);
-      // }, 3000);
+      setTimeout(() => {
+         setGameManual(false);
+      }, 3000);
    }, []);
 
    return (
       <main className={`w-screen h-screen grid grid-rows-[5rem_auto]`}>
          <Header setMenu={setMenu} />
-         {Menu === 0 ? <GameCanvas setGameOver={setGameOver} GameManual={GameManual} UserScore={UserScore} setUserScore={setUserScore} /> : <ScoreBoard />}
+         {Menu === 0 ? <GameCanvas setGameOver={setGameOver} UserScore={UserScore} setUserScore={setUserScore} /> : <ScoreBoard />}
          {GameOver && (
             <>
                <div className={`fixed m-auto top-0 bottom-0 left-0 right-0 w-1/2 h-1/2 grid grid-rows-[5rem_7fr] bg-red-700 p-2 rounded-md`}>
@@ -87,7 +87,6 @@ export default function Home() {
                         <span>GAME OVER</span>
                         <span>{`If you can't touch the floor and fall into the lava, You died`}</span>
                      </div>
-                     <button onClick={() => setGameManual(false)}>PLAY</button>
                   </div>
                </div>
             </>
