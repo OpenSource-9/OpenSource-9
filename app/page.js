@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 export default function Home() {
    const [Menu, setMenu] = useState(0);
    const [GameOver, setGameOver] = useState(false);
+   const [GameManual, setGameManual] = useState(true);
    const [UserScore, setUserScore] = useState(0);
    const [UserName, setUserName] = useState("");
 
@@ -34,6 +35,12 @@ export default function Home() {
       }
    }, [Menu]);
 
+   useEffect(() => {
+      setTimeout(() => {
+         setGameManual(false);
+      }, 3000);
+   }, []);
+
    return (
       <main className={`w-screen h-screen grid grid-rows-[5rem_auto]`}>
          <Header setMenu={setMenu} />
@@ -56,6 +63,29 @@ export default function Home() {
                      <div className={`flex justify-center items-center gap-10`}>
                         <button onClick={SaveData}>SAVE</button>
                         <button onClick={() => location.reload()}>RESTART</button>
+                     </div>
+                  </div>
+               </div>
+            </>
+         )}
+         {GameManual && (
+            <>
+               <div className={`fixed m-auto top-0 bottom-0 left-0 right-0 w-1/2 h-1/2 grid grid-rows-[5rem_7fr] bg-red-700 p-2 opacity-70 rounded-md`}>
+                  <div className={`bg-[#4F4F4F] text-white w-full h-full grid place-items-center font-PixelBold text-2xl  text-center`}>
+                     <span>MANUAL</span>
+                  </div>
+                  <div className={`bg-black text-white w-full h-full  font-PixelBold text-2xl flex flex-col justify-center  text-center items-center gap-4`}>
+                     <div className={` text-center`}>
+                        <span>Avoid the lava and survive as long as possible!</span>
+                     </div>
+                     <div className={`flex flex-col text-center`}>
+                        <span>A - GOING LEFT</span>
+                        <span>D - GOING RIGHT</span>
+                        <span>SPACE - JUMP</span>
+                     </div>
+                     <div className={`w-4/5 flex flex-col justify-center items-center text-center`}>
+                        <span>GAME OVER</span>
+                        <span>{`If you can't touch the floor and fall into the lava, You died`}</span>
                      </div>
                   </div>
                </div>
