@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { MyMap } from "./Map";
 
 export const Game =({setGameOver,UserScore,setUserScore})=>{
+
   return  <>
         <Physics gravity={[0,-(UserScore/20)-10,0]}>
         <MyMap setGameOver={setGameOver} setUserScore={setUserScore}/>

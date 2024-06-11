@@ -1,20 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './Score_style.css';
 export const ScoreBoard=()=>{
 
     const [Player,setPlayer] = useState([  /* Player 정보가 담긴 배열 */
-        { rank: 1, name: 'Name', score: 1500, date: '2024-00-00'},
-        { rank: 2, name: 'Name', score: 1400, date: '2024-00-00'},
-        { rank: 3, name: 'Name', score: 1300, date: '2024-00-00'},
-        { rank: 4, name: 'Name', score: 1200, date: '2024-00-00'},
-        { rank: 5, name: 'Name', score: 1100, date: '2024-00-00'},
-        { rank: 6, name: 'Name', score: 1000, date: '2024-00-00'},
-        { rank: 7, name: 'Name', score: 900, date: '2024-00-00'},
-        { rank: 8, name: 'Name', score: 800, date: '2024-00-00'},
-        { rank: 9, name: 'Name', score: 700, date: '2024-00-00'},
-        
+        { rank: 1, name: 'LOADING', score: 88},
     ]);
-    
+
+    const GetData =async()=>{
+        setPlayer([]);
+        let TempArr=[];
+    const Ref=await  fetch('/api/score') 
+    const Data = await Ref.json();
+    const RankArr = Data.RankArr;
+
+    for(let i=0; i<RankArr.length; i++){
+        TempArr.push({rank: i+1, name: RankArr[i].user_name, score: RankArr[i].score});
+    }
+    setPlayer(TempArr);
+    }
+    useEffect(()=>{
+        GetData();
+    },[]);
 
 return <>
     <div className="leaderBoard">
@@ -25,7 +31,6 @@ return <>
                             <th>RANK</th>  {/* 순위표 attribute */}
                             <th>PLAYER</th>
                             <th>SCORE</th>
-                            <th>DATE</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,7 +39,6 @@ return <>
                                 <td>{p.rank}{단위(p.rank)}</td>
                                 <td>{p.name}</td>
                                 <td>{p.score}</td>
-                                <td>{p.date}</td>
                             </tr>
                         ))}
                     </tbody>

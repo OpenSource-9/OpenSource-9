@@ -3,8 +3,7 @@ import { Canvas, useThree } from "@react-three/fiber"
 import { useEffect, useState } from "react"
 import { Game } from "./Game"
 
-export const GameCanvas =({setGameOver})=>{
-  const [UserScore,setUserScore]=useState(0);
+export const GameCanvas =({setGameOver,UserScore,setUserScore})=>{
 
   return <>
           <div className="fixed top-6 left-0 right-0 m-auto text-center">
