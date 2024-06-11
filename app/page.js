@@ -32,6 +32,7 @@ export default function Home() {
    useEffect(() => {
       if (Menu === 1) {
          setGameOver(false);
+         setUserScore(0);
       }
    }, [Menu]);
 
