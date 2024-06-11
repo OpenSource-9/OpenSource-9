@@ -4,7 +4,7 @@ import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import { AnimationMixer, TextureLoader } from "three";
 
-export const MyMap =({setGameOver,setUserScore})=>{
+export const MyMap =({GameManual,setGameOver,setUserScore})=>{
   const [BoxArr,setBoxArr]=useState([]);
   const [Speed,setSpeed] = useState(0.08);
   const CameraRef=useRef();
@@ -177,10 +177,12 @@ const CharacterRef  = useRef();
   useFrame(()=>{
     if(BoxArr.length===0)return;
     if(BoxPositionRef.current===undefined)return;
+    if(GameManual) return;
     if(BoxPositionRef.current[1]<0.1){
       setGameOver(true);
       return;
     }
+
     const CurPosVector = CameraRef.current.getPosition();
     const CurX = CurPosVector.x;
 
